@@ -9,7 +9,7 @@ D2691E Chocolate
 B87333 Bronze
 FAF0E6 Linen
 704214 Sepia
-CC7722 Ocher
+CC7722 Ochre
 FFE4C4 Bisque
 F28500 Tangerine
 D2B48C Tan
