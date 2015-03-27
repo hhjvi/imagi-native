@@ -2,16 +2,31 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <link rel='stylesheet' href='http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.6.0/pure-min.css'>
+    <!--[if lte IE 8]>
+      <link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css'>
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+      <link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css'>
+    <!--<![endif]-->
     <link rel='stylesheet' href='global.css'>
-    <script src='http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js'></script>
   </head>
   <body>
     <header>
-      Project HHJ ◆ <mark>Imaginative</mark><br>
-      <small>Ka la bacda ovam bioo, kalat txa bulla e vac cabal.</small>
+      <div class='topbar-title'>Project HHJ ◆ <strong>ImagiNative</strong></div>
+      <div class='topbar-tagline'>Ka la bacda ovam bioo, kalat txa bulla e vac cabal.</div>
     </header>
-    <main>
+    <main class='pure-g'>
+      <div class='pure-u-3-24'></div>
+      <div class='pure-u-18-24'>
+        <div class='content-title'>Log In</div>
+        <div class='contents'>
+          <input id='login-passport' type='text' placeholder='Your passport'>
+          <button id='login-button' class='pure-button in-button'>Start</button>
+          <br><br>第一次来？直接输入一些字母或者数字作为登录通行证。登录后将会进行更详细的解释。
+        </div>
+      </div>
     </main>
     <script src='main.js'></script>
   </body>
