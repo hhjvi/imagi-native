@@ -5,13 +5,14 @@
  * will be appended to the end of memory.txt.
  * */
 
+header('Access-Control-Allow-Origin: *');
 date_default_timezone_set('Asia/Shanghai');
 
 $fp = fopen('memory.txt', 'a');
 $s = $_GET['operation'];
-if ($arg = $_GET['arg1']) $s .= ' ' . $arg;
-if ($arg = $_GET['arg2']) $s .= ' ' . $arg;
-if ($arg = $_GET['arg3']) $s .= ' ' . $arg;
+if (($arg = $_GET['arg1']) != null) $s .= ' ' . $arg;
+if (($arg = $_GET['arg2']) != null) $s .= ' ' . $arg;
+if (($arg = $_GET['arg3']) != null) $s .= ' ' . $arg;
 fprintf($fp, "%s %s\n", date('Y-m-d-H-i-s'), $s);
 fclose($fp); 
 

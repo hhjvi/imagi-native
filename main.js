@@ -3,10 +3,13 @@
   window.storage = {passports: [], entries: []};
   window.templates = {};
   window.logged_in_as = -1;
+  window.server = 'http://localhost:8715/imagi.php';
+  window.storage_server = 'http://localhost:8715/memory.php';
+
   function init_storage() {
     // Retrieve all data.
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'file:///home/lsq/develop/hhjvi/imagi-native/server/memory.txt', false);
+    xhr.open('GET', window.storage_server, false);
     xhr.send();
     // Split the data.
     var lines = xhr.responseText.split('\n'), line = '';
@@ -27,7 +30,7 @@
 
   function init_templates() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'file:///home/lsq/develop/hhjvi/imagi-native/templates.tpl', false);
+    xhr.open('GET', 'templates.tpl', false);
     xhr.send();
     // Split the templates.            vv These slashes are escaped
     var tpls = xhr.responseText.split('\\\\(QwQ)\n');

@@ -49,6 +49,19 @@ main {
   color: white;
 }
 
+.in-input {
+  font-size: 36px;
+  width: 100%;
+  border: 0px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1px;
+}
+
+.in-input:focus {
+  border-bottom: 2px solid #fc9;
+  padding-bottom: 0px;
+}
+
 a {
   color: #44f;
   text-decoration: none;

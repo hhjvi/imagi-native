@@ -1,7 +1,7 @@
 LOGIN
 <div class='content-title'>Log In</div>
 <div class='contents'>
-  <input id='login-passport' type='text' placeholder='Your passport'>
+  <input id='login-passport' class='in-input' type='text' placeholder='Your passport'>
   <button id='login-button' class='pure-button in-button'>Start</button>
   <div id='login-warning'>
     通行证不正确，请检查 TwT
@@ -12,16 +12,6 @@ LOGIN
 <style>
   #login-passport {
     margin-top: 2em;
-    font-size: 36px;
-    width: 100%;
-    border: 0px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 1px;
-  }
-
-  #login-passport:focus {
-    border-bottom: 2px solid #fc9;
-    padding-bottom: 0px;
   }
 
   #login-button {
@@ -62,7 +52,10 @@ document.getElementById('login-passport').onkeypress = function (e) {
 \\(QwQ)
 LISTPAGE
 (% (logged_p = window.storage.passports[window.logged_in_as], '') %)
-<div id='passport-disp'>Logged in as <strong>(% logged_p.name %)</strong></div>
+<div class='pure-g'>
+  <div id='passport-disp' class='pure-u-1-2'>Logged in as <strong>(% logged_p.name %)</strong></div>
+  <div class='pure-u-1-2 right-align'><a class='pure-button pure-button-primary' href='javascript:window.render_template("NEWENTRY");'>+ New entry</a></div>
+</div>
 <div id='entry-list'>
   (% for (var i = 0; i < window.storage.entries.length; i++) { %)
     <hr>
@@ -144,3 +137,43 @@ ENTRYPAGE
 </style>
 
 (=~=)|||
+
+\\(QwQ)
+NEWENTRY
+(% (logged_p = window.storage.passports[window.logged_in_as], '') %)
+<div id='passport-disp'>Logged in as <strong>(% logged_p.name %)</strong></div><br>
+
+<div class='content-title'>Create Entry</div>
+<div class='contents'>
+  <input id='newentry-title' class='in-input' type='text' placeholder='Title'>
+  <button id='newentry-button' class='pure-button in-button'>+ Add</button>
+</div>
+
+<style>
+  #passport-disp {
+    font-size: 28px;
+  }
+
+  #newentry-title {
+    margin-top: 2em;
+  }
+
+  #newentry-button {
+    margin-top: 1em;
+    width: 100%;
+  }
+</style>
+
+(=~=)|||
+//<script>
+var newentry_button_click = function () {
+  var title = document.getElementById('newentry-title').value;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', window.server + '?operation=entry&arg1=' + window.logged_in_as + '&arg2=' + encodeURI(title));
+  xhr.send();
+};
+document.getElementById('newentry-button').onclick = newentry_button_click;
+document.getElementById('newentry-title').onkeypress = function (e) {
+  if (e.keyCode === 13) newentry_button_click();
+};
+//</script>
