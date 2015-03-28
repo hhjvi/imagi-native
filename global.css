@@ -50,3 +50,13 @@ main {
   font-weight: bold;
   color: white;
 }
+
+a {
+  color: #44f;
+  text-decoration: none;
+}
+
+hr {
+  color: #eee;
+  border-color: #eee;
+}

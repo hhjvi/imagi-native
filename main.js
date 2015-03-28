@@ -1,7 +1,8 @@
 (function () {
   'use strict';
   window.storage = {passports: [], entries: []};
-  window.templates = [];
+  window.templates = {};
+  window.logged_in_as = -1;
   function init_storage() {
     // Retrieve all data.
     var xhr = new XMLHttpRequest();
@@ -15,11 +16,11 @@
       if (operation === 'newcomer') {
         window.storage.passports.push({name: words[2], passport: words.slice(3).join(' ')});
       } else if (operation === 'entry') {
-        window.storage.entries.push({title: words[3], author: parseInt(words[2]), comments: []});
+        window.storage.entries.push({date: date_str, title: words.slice(3).join(' '), author: parseInt(words[2]), comments: []});
       } else if (operation === 'retitle') {
         window.storage.entries[parseInt(words[3])].title = words.slice(4).join(' ');
       } else if (operation === 'comment') {
-        window.storage.entries[parseInt(words[3])].comments.push({author: parseInt(words[2]), text: words.slice(4).join(' ')});
+        window.storage.entries[parseInt(words[3])].comments.push({date: date_str, author: parseInt(words[2]), text: words.slice(4).join(' ')});
       }
     }
   }
@@ -28,11 +29,14 @@
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'file:///home/lsq/develop/hhjvi/imagi-native/templates.tpl', false);
     xhr.send();
-    // Split the templates.
-    var tpls = xhr.responseText.split('QwQ\n');
+    // Split the templates.            vv These slashes are escaped
+    var tpls = xhr.responseText.split('\\\\(QwQ)\n');
     for (var i = 0; i < tpls.length; i++) {
-      var content_pos = tpls[i].indexOf('\n');
-      window.templates[tpls[i].substr(0, content_pos)] = tpls[i].substr(content_pos + 1);
+      var content_pos = tpls[i].indexOf('\n'), script_pos = tpls[i].indexOf('(=~=)|||\n');
+      window.templates[tpls[i].substr(0, content_pos)] = {
+        html: tpls[i].substr(content_pos + 1, script_pos - content_pos - 1),
+        script: new Function(tpls[i].substr(script_pos + '(=~=)|||\n'.length))
+      };
     }
   }
 
@@ -58,8 +62,11 @@
     return new Function(code.replace(/[\r\t\n]/g, '')).apply(options);
   }
   function render_template(name) {
-    document.getElementById('template-area').innerHTML = templater(window.templates[name]);
+    var t = window.templates[name];
+    document.getElementById('template-area').innerHTML = templater(t.html);
+    t.script();
   }
+  window.render_template = render_template;
 
   render_template('LOGIN');
 }());
