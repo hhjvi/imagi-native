@@ -98,6 +98,7 @@ ENTRYPAGE
 <div id='passport-disp'>Logged in as <strong>(% logged_p.name %)</strong></div>
 <a id='back-button' class='pure-button' href='javascript:window.render_template("LISTPAGE");'>&nbsp;&lt; Back</a>
 (% (cur_entry = window.storage.entries[this.index], '') %)
+(% (window.entry_index = this.index, '') %)
 <div id='entry-solo-title'>(% cur_entry.title %)</div>
 <span class='timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</span>
 <div id='comments-list'>
@@ -107,6 +108,11 @@ ENTRYPAGE
     <p>(% cur_comment.text %)</p>
     <p class='timestamp right-align'>... Says <strong>(% window.storage.passports[cur_comment.author].name %)</strong> at (% cur_comment.date %)</p>
   (% } %)
+</div>
+
+<div id='comments-post'>
+  <textarea id='comment-text' rows='4'></textarea>
+  <button id='comment-button' class='pure-button pure-button-primary'>+ Post comment</button>
 </div>
 
 <style>
@@ -134,9 +140,34 @@ ENTRYPAGE
     margin-top: 0.8em;
     font-size: 32px;
   }
+
+  #comment-text {
+    font-size: 28px;
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 100%;
+    resize: vertical;
+    margin-bottom: 1em;
+  }
+
+  #comment-button {
+    margin-bottom: 1em;
+  }
 </style>
 
 (=~=)|||
+//<script>
+document.getElementById('comment-button').onclick = function () {
+  var text = document.getElementById('comment-text').value;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', window.server + '?operation=comment&arg1=' + window.logged_in_as + '&arg2=' + window.entry_index + '&arg3=' + encodeURI(text));
+  xhr.send();
+  // Get the time
+  var d = new Date(), time_str = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+  window.storage.entries[window.entry_index].comments.push({date: time_str, author: window.logged_in_as, text: text});
+  window.render_template('ENTRYPAGE', {index: window.entry_index});
+};
+//</script>
 
 \\(QwQ)
 NEWENTRY
@@ -171,6 +202,10 @@ var newentry_button_click = function () {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', window.server + '?operation=entry&arg1=' + window.logged_in_as + '&arg2=' + encodeURI(title));
   xhr.send();
+  // Update the local data
+  var d = new Date(), time_str = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+  window.storage.entries.push({date: time_str, author: window.logged_in_as, title: title, comments: []});
+  window.render_template('LISTPAGE');
 };
 document.getElementById('newentry-button').onclick = newentry_button_click;
 document.getElementById('newentry-title').onkeypress = function (e) {
