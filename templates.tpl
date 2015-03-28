@@ -68,7 +68,7 @@ LISTPAGE
     <hr>
     (% (cur_entry = window.storage.entries[i], '') %)
     <a class='entry-title' href='javascript:window.show_entry((% i %));'>(% cur_entry.title %)</a>
-    <p class='entry-timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</p>
+    <p class='timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</p>
   (% } %)
 </div>
 
@@ -87,7 +87,7 @@ LISTPAGE
     font-size: 1.5em;
   }
 
-  .entry-timestamp {
+  .timestamp {
     color: #999;
   }
 </style>
@@ -106,7 +106,15 @@ ENTRYPAGE
 <a id='back-button' class='pure-button' href='javascript:window.render_template("LISTPAGE");'>&nbsp;&lt; Back</a>
 (% (cur_entry = window.storage.entries[this.index], '') %)
 <div id='entry-solo-title'>(% cur_entry.title %)</div>
-<span class='entry-timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</span><hr>
+<span class='timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</span>
+<div id='comments-list'>
+  (% for (var i = 0; i < cur_entry.comments.length; i++) { %)
+    <hr>
+    (% (cur_comment = cur_entry.comments[i], '') %)
+    <p>(% cur_comment.text %)</p>
+    <p class='timestamp right-align'>... Says <strong>(% window.storage.passports[cur_comment.author].name %)</strong> at (% cur_comment.date %)</p>
+  (% } %)
+</div>
 
 <style>
   #passport-disp {
@@ -124,9 +132,14 @@ ENTRYPAGE
     font-weight: bold;
   }
 
-  .entry-timestamp {
+  .timestamp {
     font-size: 28px;
     color: #999;
+  }
+
+  #comments-list {
+    margin-top: 0.8em;
+    font-size: 32px;
   }
 </style>
 

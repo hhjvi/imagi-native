@@ -58,3 +58,7 @@ hr {
   color: #eee;
   border-color: #eee;
 }
+
+.right-align {
+  text-align: right;
+}
