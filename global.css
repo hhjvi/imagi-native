@@ -5,13 +5,13 @@
   src: local('Raleway ExtraLight'), local('Raleway-ExtraLight'), url('https://fonts-gstatic.lug.ustc.edu.cn/s/raleway/v9/8KhZd3VQBtXTAznvKjw-k_k_vArhqVIZ0nv9q090hN8.woff2') format('woff2'), url('https://fonts-gstatic.lug.ustc.edu.cn/s/raleway/v9/8KhZd3VQBtXTAznvKjw-kxsxEYwM7FgeyaSgU71cLG0.woff') format('woff');
 }
 
-body {
+body, .pure-g [class*="pure-u"] {
   margin: 0px;
+  font-family: 'Raleway';
 }
 
 header {
   background: #fc9;
-  font-family: 'Raleway';
   font-size: 48px;
   padding: 1.2em 1.2em 1.6em;
 }
@@ -32,7 +32,6 @@ main {
 
 .content-title {
   font-size: 2em;
-  font-family: 'Raleway';
   font-weight: bold;
   padding-bottom: 5px;
   border-bottom: 1px solid #ccc;
@@ -46,7 +45,6 @@ main {
 
 .in-button {
   background: #f87f05;
-  font-family: 'Raleway';
   font-weight: bold;
   color: white;
 }

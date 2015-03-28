@@ -12,7 +12,6 @@ LOGIN
 <style>
   #login-passport {
     margin-top: 2em;
-    font-family: 'Raleway';
     font-size: 36px;
     width: 100%;
     border: 0px;
@@ -68,19 +67,17 @@ LISTPAGE
   (% for (var i = 0; i < window.storage.entries.length; i++) { %)
     <hr>
     (% (cur_entry = window.storage.entries[i], '') %)
-    <a class='entry-title' href='#'>(% cur_entry.title %)</a>
+    <a class='entry-title' href='javascript:window.show_entry((% i %));'>(% cur_entry.title %)</a>
     <p class='entry-timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</p>
   (% } %)
 </div>
 
 <style>
   #passport-disp {
-    font-family: 'Raleway';
     font-size: 28px;
   }
 
   #entry-list {
-    font-family: 'Raleway';
     font-size: 28px;
     padding: 0 1em;
     margin-top: 1em;
@@ -91,6 +88,44 @@ LISTPAGE
   }
 
   .entry-timestamp {
+    color: #999;
+  }
+</style>
+
+(=~=)|||
+//<script>
+window.show_entry = function (idx) {
+  window.render_template('ENTRYPAGE', {index: idx});
+}
+//</script>
+
+\\(QwQ)
+ENTRYPAGE
+(% (logged_p = window.storage.passports[window.logged_in_as], '') %)
+<div id='passport-disp'>Logged in as <strong>(% logged_p.name %)</strong></div>
+<a id='back-button' class='pure-button' href='javascript:window.render_template("LISTPAGE");'>&nbsp;&lt; Back</a>
+(% (cur_entry = window.storage.entries[this.index], '') %)
+<div id='entry-solo-title'>(% cur_entry.title %)</div>
+<span class='entry-timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</span><hr>
+
+<style>
+  #passport-disp {
+    font-size: 28px;
+  }
+
+  #back-button {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+
+  #entry-solo-title {
+    margin-top: 0.8em;
+    font-size: 44px;
+    font-weight: bold;
+  }
+
+  .entry-timestamp {
+    font-size: 28px;
     color: #999;
   }
 </style>

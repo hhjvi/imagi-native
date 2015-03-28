@@ -61,9 +61,9 @@
     code += 'return r.join("");';
     return new Function(code.replace(/[\r\t\n]/g, '')).apply(options);
   }
-  function render_template(name) {
+  function render_template(name, options) {
     var t = window.templates[name];
-    document.getElementById('template-area').innerHTML = templater(t.html);
+    document.getElementById('template-area').innerHTML = templater(t.html, options);
     t.script();
   }
   window.render_template = render_template;
