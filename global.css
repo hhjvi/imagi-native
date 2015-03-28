@@ -44,29 +44,9 @@ main {
   margin-left: 10%;
 }
 
-#login-passport {
-  margin-top: 2em;
-  font-family: 'Raleway';
-  font-size: 36px;
-  width: 100%;
-  border: 0px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 1px;
-}
-
-#login-passport:focus {
-  border-bottom: 2px solid #fc9;
-  padding-bottom: 0px;
-}
-
 .in-button {
   background: #f87f05;
   font-family: 'Raleway';
   font-weight: bold;
   color: white;
-}
-
-#login-button {
-  margin-top: 1em;
-  width: 100%;
 }
