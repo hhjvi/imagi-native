@@ -160,6 +160,27 @@ ENTRYPAGE
 
 (=~=)|||
 //<script>
+// 我真的火星了……现在才知道JavaScript里有个prompt() T^T
+// http://bbs.csdn.net/topics/20346546
+document.getElementById('tag-add-button').onclick = function () {
+  var newtag = prompt("New tag's title:"), valid = true;
+  if (!newtag) return;
+  for (i in window.storage.entries[window.entry_index].tags)
+    if (window.storage.entries[window.entry_index].tags === newtag) {
+      // 立flag？？？
+      valid = false; return;
+    }
+  if (valid) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', window.server + '?operation=tag&arg1=' + window.logged_in_as + '&arg2=' + window.entry_index + '&arg3=' + encodeURI(newtag));
+    xhr.send();
+    window.storage.entries[window.entry_index].tags.push(newtag);
+    window.storage.tags[newtag] = window.storage.tags[newtag] || [];
+    window.storage.tags[newtag].push(window.entry_index);
+    window.render_template('ENTRYPAGE', {index: window.entry_index});
+  }
+};
+
 document.getElementById('comment-button').onclick = function () {
   var text = document.getElementById('comment-text').value.replace(/\n/g, '<br>').replace(/&/g, '&amp;');
   var xhr = new XMLHttpRequest();
