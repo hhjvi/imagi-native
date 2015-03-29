@@ -118,5 +118,9 @@
   }
   window.render_template = render_template;
 
+  xhr = new XMLHttpRequest();
+  xhr.open('GET', window.server + '?operation=pageview');
+  xhr.send();
+
   render_template('LOGIN');
 }());

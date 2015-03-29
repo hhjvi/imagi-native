@@ -51,7 +51,12 @@ var login_button_click = function () {
     if (pp === window.storage.passports[i].passport) {
       window.logged_in_as = i; break;
     }
-  if (window.logged_in_as >= 0) window.render_template('LISTPAGE');
+  if (window.logged_in_as >= 0) {
+    window.render_template('LISTPAGE');
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', window.server + '?operation=login&arg1=' + window.logged_in_as);
+    xhr.send();
+  }
   else document.getElementById('login-warning').classList.add('force-display');
 };
 document.getElementById('login-button').onclick = login_button_click;
