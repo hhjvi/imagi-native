@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  window.storage = {passports: [], entries: [], namelist: []};
+  window.storage = {passports: [], entries: [], tags: [], namelist: []};
   window.templates = {};
   window.logged_in_as = -1;
   window.server = 'http://localhost:8715/imagi.php';
@@ -29,9 +29,14 @@
         window.storage.passports.push({name: words[2], passport: words.slice(3).join(' ')});
         window.storage.namelist[words[2]].used = true;
       } else if (operation === 'entry') {
-        window.storage.entries.push({date: date_str, title: words.slice(3).join(' '), author: parseInt(words[2]), comments: []});
+        window.storage.entries.push({date: date_str, title: words.slice(3).join(' '), author: parseInt(words[2]), tags: [], comments: []});
       } else if (operation === 'retitle') {
         window.storage.entries[parseInt(words[3])].title = words.slice(4).join(' ');
+      } else if (operation === 'tag') {
+        var tag = words.slice(4).join(' '), entryid = parseInt(words[3]);
+        window.storage.tags[tag] = window.storage.tags[tag] || [];
+        window.storage.tags[tag].push(entryid);
+        window.storage.entries[entryid].tags.push(tag);
       } else if (operation === 'comment') {
         window.storage.entries[parseInt(words[3])].comments.push({date: date_str, author: parseInt(words[2]), text: words.slice(4).join(' ')});
       }
@@ -66,6 +71,17 @@
     if (id == null) id = window.logged_in_as;   // id could be zero
     var myname = window.storage.passports[id].name;
     return "<span class='username' style='color: #" + window.storage.namelist[myname].colour + "'>" + myname + "</span>";
+  };
+
+  function hex_2dig(num) {
+    return num < 16 ? ('0' + num.toString(16)) : num.toString(16);
+  }
+  window.tag_disp = function (tag) {
+    var sum = 0;
+    for (var i in tag) sum += tag.charCodeAt(i) * (i + 3);
+    var ran1 = (tag.length * 103748 + sum * 33) % 256, ran2 = (tag.length * 6 + tag.charCodeAt(0) * 99 - sum) % 255, ran3 = Math.floor(tag.length / 1.18 - tag.charCodeAt(tag.length - 1) * 7.1 + sum * 99.122) % 256;
+    var colour = '#' + hex_2dig(ran1) + hex_2dig(ran2) + hex_2dig(ran3);
+    return "<span class='entry-tag' style='background: " + colour + "'>" + tag + "</span>";
   };
 
   // http://segmentfault.com/blog/news/1190000000394948

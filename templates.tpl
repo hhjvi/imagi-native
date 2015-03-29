@@ -110,6 +110,11 @@ ENTRYPAGE
 (% (window.entry_index = this.index, '') %)
 <div id='entry-solo-title'>(% cur_entry.title %)</div>
 <span class='timestamp'>Created by (% window.name_disp(cur_entry.author) %) at (% cur_entry.date %)</span>
+<div id='entry-tags'>
+  (% for (var i in cur_entry.tags) { %)
+    (% window.tag_disp(cur_entry.tags[i]) %)
+  (% } %)
+</div>
 <div id='comments-list'>
   (% for (var i = 0; i < cur_entry.comments.length; i++) { %)
     <hr>

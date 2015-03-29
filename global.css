@@ -47,6 +47,10 @@ main {
   font-weight: bold;
 }
 
+.entry-tag {
+  border-radius: 2px;
+}
+
 .in-button {
   background: #f87f05;
   font-weight: bold;
