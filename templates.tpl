@@ -44,7 +44,7 @@ var login_button_click = function () {
     xhr.send();
     // Update the local data
     window.logged_in_as = window.storage.passports.push({name: name, passport: pp}) - 1;
-    window.render_template('LISTPAGE');
+    window.render_template('WELCOME');
     return;
   }
   for (var i = 0; i < window.storage.passports.length; i++)
@@ -264,5 +264,37 @@ TAGPAGE
 </style>
 
 (=~=)|||
-//<script>
-//</script>
+
+\\(QwQ)
+WELCOME
+<div id='passport-disp'>Logged in as (% window.name_disp() %)</div>
+
+<div class='content-title'>Warmly welcome (% window.name_disp() %)</div>
+<div class='contents'>
+  <h1>== 寻找六班意象 ==</h1>
+  <p>这是一个计划中的项目。如果参与人数足够，会考虑继续。</p>
+  <p>对于毕业我不想说什么了……开门见山切入主题：把对本班影响最大的东东收集起来（说不定还可以做个视频，且 P(A)>0.9）。下面是我的想法。</p>
+  <ul>
+    <li>第一阶段：收集阶段（即日起～5月末）：所有无聊的童鞋（比如……ZY）把各种无聊的东东写到这里来。</li>
+    <li>第二阶段：投票阶段（5月末～6月初）：所有无聊的童鞋（比如……ZY）给各种无聊的东东评分（评分项目可以有多个，例如，影响力、持久度<del>，“你好的”持久度超高</del>……）。</li>
+    <li>第三阶段：处理阶段（6月初～？？）：收集数据，得到排行榜，然后视频</li>
+  </ul>
+  <hr>
+  <h2>细节</h2>
+  <p>没有“用户”的概念，而是使用匿名的通行证（passport），一个通行证对应一个随机分配的名字（都是颜色名），把通行证当密码使可以了。</p>
+  <p>在这里有一个东东叫做“条目（entry）”……看过度娘百科的都知道，不解释。</p>
+  <p>每个条目可以有一些标签（tag），不解释</p>
+  <p>对于一个条目有任何补充或者想法或者只是想水一发，都可以发表评论。把评论区当弹幕就可以了。</p>
+  <p>基本上就是这样，有意见和建议全部可以在“ADMIN”条目发评论。</p>
+  <p>PS 有时候不想切输入法……然后开发的时候里面有一些英文……相信大家的英语水平。</p>
+  <a id='letsgo-button' class='pure-button pure-button-primary' href='javascript:window.render_template("LISTPAGE")'>LET'S GO!!</a>
+</div>
+
+<style>
+  #letsgo-button {
+    width: 100%;
+    font-size: 32px;
+  }
+</style>
+
+(=~=)|||
