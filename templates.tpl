@@ -198,6 +198,10 @@ document.getElementById('comment-button').onclick = function () {
   window.storage.entries[window.entry_index].comments.push({date: time_str, author: window.logged_in_as, text: text});
   window.render_template('ENTRYPAGE', {index: window.entry_index});
 };
+
+var xhr = new XMLHttpRequest();
+xhr.open('GET', window.server + '?operation=pageview&arg1=' + window.logged_in_as + '&arg2=' + window.entry_index);
+xhr.send();
 //</script>
 
 \\(QwQ)
