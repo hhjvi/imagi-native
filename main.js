@@ -88,7 +88,7 @@
   window.tag_disp = function (tag) {
     var sum = 0;
     for (var i in tag) sum += tag.charCodeAt(i) * (i + 3);
-    var ran1 = (tag.length * 103748 + sum * 33) % 256, ran2 = (tag.length * 6 + tag.charCodeAt(0) * 99 - sum) % 255, ran3 = Math.floor(tag.length / 1.18 - tag.charCodeAt(tag.length - 1) * 7.1 + sum * 99.122) % 256;
+    var ran1 = (tag.length * 103748 + sum * 33 + tag.charCodeAt(0)) % 256, ran2 = (tag.length * 6 + tag.charCodeAt(0) * 99 - sum + 2015999) % 255, ran3 = Math.floor(tag.length / 1.18 - tag.charCodeAt(tag.length - 1) * 7.1 + sum * 99.122 + 800.1) % 256;
     var colour = '#' + hex_2dig(ran1) + hex_2dig(ran2) + hex_2dig(ran3);
     return "<a class='pure-button entry-tag" + (0.213 * ran1 + 0.715 * ran2 + 0.072 * ran3 > 127 ? "" : " inverse") + "' style='background: " + colour + "' href='javascript:window.render_template(\"TAGPAGE\", {tag: \"" + tag + "\"});'>" + tag + "</a>";
   };
