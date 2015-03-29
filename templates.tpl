@@ -167,9 +167,9 @@ ENTRYPAGE
 (=~=)|||
 //<script>
 document.getElementById('comment-button').onclick = function () {
-  var text = document.getElementById('comment-text').value;
+  var text = document.getElementById('comment-text').value.replace(/\n/g, '<br>').replace(/&/g, '&amp;');
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', window.server + '?operation=comment&arg1=' + window.logged_in_as + '&arg2=' + window.entry_index + '&arg3=' + encodeURI(text));
+  xhr.open('GET', window.server + '?operation=comment&arg1=' + window.logged_in_as + '&arg2=' + window.entry_index + '&arg3=' + encodeURI(text).replace(/&/g, '%26'));
   xhr.send();
   // Get the time
   var d = new Date(), time_str = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
