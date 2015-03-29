@@ -1,23 +1,33 @@
 (function () {
   'use strict';
-  window.storage = {passports: [], entries: []};
+  window.storage = {passports: [], entries: [], namelist: []};
   window.templates = {};
   window.logged_in_as = -1;
   window.server = 'http://localhost:8715/imagi.php';
   window.storage_server = 'http://localhost:8715/memory.php';
 
   function init_storage() {
-    // Retrieve all data.
+    // Retrieve the name list.
     var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'colours.txt', false);
+    xhr.send();
+    var lines = xhr.responseText.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+      var spc_pos = lines[i].indexOf(' ');
+      window.storage.namelist[lines[i].substr(spc_pos + 1)] = {colour: lines[i].substr(0, spc_pos), used: false};
+    }
+    // Retrieve all other data.
+    xhr = new XMLHttpRequest();
     xhr.open('GET', window.storage_server, false);
     xhr.send();
     // Split the data.
-    var lines = xhr.responseText.split('\n'), line = '';
+    lines = xhr.responseText.split('\n');
     for (var i = 0; i < lines.length; i++) {
       var words = lines[i].split(' '), date = words[0].split('-'), operation = words[1];
       var date_str = date[0] + '-' + date[1] + '-' + date[2] + ' ' + date[3] + ':' + date[4] + ':' + date[5];
       if (operation === 'newcomer') {
         window.storage.passports.push({name: words[2], passport: words.slice(3).join(' ')});
+        window.storage.namelist[words[2]].used = true;
       } else if (operation === 'entry') {
         window.storage.entries.push({date: date_str, title: words.slice(3).join(' '), author: parseInt(words[2]), comments: []});
       } else if (operation === 'retitle') {
@@ -26,6 +36,12 @@
         window.storage.entries[parseInt(words[3])].comments.push({date: date_str, author: parseInt(words[2]), text: words.slice(4).join(' ')});
       }
     }
+    // Calculate the available name list.
+    var avail_list = [];
+    for (var n in window.storage.namelist) if (n !== '' && !window.storage.namelist[n].used) {
+      avail_list.push(n);
+    }
+    window.storage.namelist.avail_list = avail_list;
   }
 
   function init_templates() {
@@ -45,6 +61,12 @@
 
   init_storage();
   init_templates();
+
+  window.name_disp = function (id) {
+    if (id == null) id = window.logged_in_as;   // id could be zero
+    var myname = window.storage.passports[id].name;
+    return "<span class='username' style='color: #" + window.storage.namelist[myname].colour + "'>" + myname + "</span>";
+  };
 
   // http://segmentfault.com/blog/news/1190000000394948
   // Call with ('aaa(% for (i = 0; i < this.a.length; i++) { %)(% this.a[i] %)x(% } %) nn', {a: [4, 'aa', 6]})

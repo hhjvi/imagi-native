@@ -43,6 +43,10 @@ main {
   margin-left: 10%;
 }
 
+.username {
+  font-weight: bold;
+}
+
 .in-button {
   background: #f87f05;
   font-weight: bold;

@@ -6,7 +6,7 @@ LOGIN
   <div id='login-warning'>
     通行证不正确，请检查 TwT
   </div>
-  <br><br>第一次来？直接输入一些字母或者数字作为登录通行证。登录后将会进行更详细的解释。
+  <br><br>第一次来？选择一些字母或者数字作为你将来的登录通行证，在前面加上“new-”（例如，“new-MyPassport”）。登录后将会进行更详细的解释。
 </div>
 
 <style>
@@ -36,6 +36,17 @@ LOGIN
 //<script>
 var login_button_click = function () {
   var pp = document.getElementById('login-passport').value;
+  if (pp.substr(0, 4) === 'new-') {
+    pp = pp.substr(4);
+    var name = window.storage.namelist.avail_list[Math.floor(Math.random() * window.storage.namelist.avail_list.length)];
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', window.server + '?operation=newcomer&arg1=' + name + '&arg2=' + encodeURI(pp));
+    xhr.send();
+    // Update the local data
+    window.logged_in_as = window.storage.passports.push({name: name, passport: pp}) - 1;
+    window.render_template('LISTPAGE');
+    return;
+  }
   for (var i = 0; i < window.storage.passports.length; i++)
     if (pp === window.storage.passports[i].passport) {
       window.logged_in_as = i; break;
@@ -51,9 +62,8 @@ document.getElementById('login-passport').onkeypress = function (e) {
 
 \\(QwQ)
 LISTPAGE
-(% (logged_p = window.storage.passports[window.logged_in_as], '') %)
 <div class='pure-g'>
-  <div id='passport-disp' class='pure-u-1-2'>Logged in as <strong>(% logged_p.name %)</strong></div>
+  <div id='passport-disp' class='pure-u-1-2'>Logged in as (% window.name_disp() %)</div>
   <div class='pure-u-1-2 right-align'><a class='pure-button pure-button-primary' href='javascript:window.render_template("NEWENTRY");'>+ New entry</a></div>
 </div>
 <div id='entry-list'>
@@ -61,7 +71,7 @@ LISTPAGE
     <hr>
     (% (cur_entry = window.storage.entries[i], '') %)
     <a class='entry-title' href='javascript:window.show_entry((% i %));'>(% cur_entry.title %)</a>
-    <p class='timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</p>
+    <p class='timestamp'>Created by (% window.name_disp(cur_entry.author) %) at (% cur_entry.date %)</p>
   (% } %)
 </div>
 
@@ -94,19 +104,18 @@ window.show_entry = function (idx) {
 
 \\(QwQ)
 ENTRYPAGE
-(% (logged_p = window.storage.passports[window.logged_in_as], '') %)
-<div id='passport-disp'>Logged in as <strong>(% logged_p.name %)</strong></div>
+<div id='passport-disp'>Logged in as (% window.name_disp() %)</div>
 <a id='back-button' class='pure-button' href='javascript:window.render_template("LISTPAGE");'>&nbsp;&lt; Back</a>
 (% (cur_entry = window.storage.entries[this.index], '') %)
 (% (window.entry_index = this.index, '') %)
 <div id='entry-solo-title'>(% cur_entry.title %)</div>
-<span class='timestamp'>Created by <strong>(% window.storage.passports[cur_entry.author].name %)</strong> at (% cur_entry.date %)</span>
+<span class='timestamp'>Created by (% window.name_disp(cur_entry.author) %) at (% cur_entry.date %)</span>
 <div id='comments-list'>
   (% for (var i = 0; i < cur_entry.comments.length; i++) { %)
     <hr>
     (% (cur_comment = cur_entry.comments[i], '') %)
     <p>(% cur_comment.text %)</p>
-    <p class='timestamp right-align'>... Says <strong>(% window.storage.passports[cur_comment.author].name %)</strong> at (% cur_comment.date %)</p>
+    <p class='timestamp right-align'>... Says (% window.name_disp(cur_comment.author) %) at (% cur_comment.date %)</p>
   (% } %)
 </div>
 
@@ -171,8 +180,7 @@ document.getElementById('comment-button').onclick = function () {
 
 \\(QwQ)
 NEWENTRY
-(% (logged_p = window.storage.passports[window.logged_in_as], '') %)
-<div id='passport-disp'>Logged in as <strong>(% logged_p.name %)</strong></div><br>
+<div id='passport-disp'>Logged in as (% window.name_disp() %)</div><br>
 
 <div class='content-title'>Create Entry</div>
 <div class='contents'>
