@@ -229,7 +229,7 @@ var newentry_button_click = function () {
   xhr.send();
   // Update the local data
   var d = new Date(), time_str = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
-  window.storage.entries.push({date: time_str, author: window.logged_in_as, title: title, comments: []});
+  window.storage.entries.push({date: time_str, author: window.logged_in_as, title: title, tags: [], comments: []});
   window.render_template('LISTPAGE');
 };
 document.getElementById('newentry-button').onclick = newentry_button_click;
@@ -246,7 +246,7 @@ TAGPAGE
 <div class='content-title'>Tag: (% window.tag_disp(this.tag) %)</div>
 <div id='entry-list'>
   (% for (var i = 0; i < window.storage.tags[this.tag].length; i++) { %)
-    (% window.entry_disp(i) %)
+    (% window.entry_disp(window.storage.tags[this.tag][i]) %)
     <hr>
   (% } %)
 </div>
