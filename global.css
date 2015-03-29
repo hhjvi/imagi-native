@@ -49,6 +49,13 @@ main {
 
 .entry-tag {
   border-radius: 2px;
+  font-weight: bold;
+  font-size: 32px;
+  padding: 0px 0.5em;
+}
+
+.inverse {
+  color: white;
 }
 
 .in-button {
