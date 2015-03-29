@@ -73,6 +73,15 @@
     return "<span class='username' style='color: #" + window.storage.namelist[myname].colour + "'>" + myname + "</span>";
   };
 
+  window.entry_disp = function (id) {
+    var cur_entry = window.storage.entries[id];
+    var tags = '';
+    for (var i in cur_entry.tags) tags += window.tag_disp(cur_entry.tags[i]) + " ";
+    return "<a class='entry-title' href='javascript:window.show_entry(" + id + ");'>" + cur_entry.title + "</a>" +
+      "<div class='entry-taglist'>" + tags + "</div>" +
+      "<p class='timestamp'>Created by " + window.name_disp(cur_entry.author) + " at " + cur_entry.date + "</p>";
+  };
+
   function hex_2dig(num) {
     return num < 16 ? ('0' + num.toString(16)) : num.toString(16);
   }
@@ -81,7 +90,7 @@
     for (var i in tag) sum += tag.charCodeAt(i) * (i + 3);
     var ran1 = (tag.length * 103748 + sum * 33) % 256, ran2 = (tag.length * 6 + tag.charCodeAt(0) * 99 - sum) % 255, ran3 = Math.floor(tag.length / 1.18 - tag.charCodeAt(tag.length - 1) * 7.1 + sum * 99.122) % 256;
     var colour = '#' + hex_2dig(ran1) + hex_2dig(ran2) + hex_2dig(ran3);
-    return "<span class='entry-tag" + (0.213 * ran1 + 0.715 * ran2 + 0.072 * ran3 > 127 ? "" : " inverse") + "' style='background: " + colour + "'>" + tag + "</span>";
+    return "<a class='pure-button entry-tag" + (0.213 * ran1 + 0.715 * ran2 + 0.072 * ran3 > 127 ? "" : " inverse") + "' style='background: " + colour + "' href='javascript:window.render_template(\"TAGPAGE\", {tag: \"" + tag + "\"});'>" + tag + "</a>";
   };
 
   // http://segmentfault.com/blog/news/1190000000394948

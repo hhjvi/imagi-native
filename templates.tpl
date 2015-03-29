@@ -69,9 +69,7 @@ LISTPAGE
 <div id='entry-list'>
   (% for (var i = 0; i < window.storage.entries.length; i++) { %)
     <hr>
-    (% (cur_entry = window.storage.entries[i], '') %)
-    <a class='entry-title' href='javascript:window.show_entry((% i %));'>(% cur_entry.title %)</a>
-    <p class='timestamp'>Created by (% window.name_disp(cur_entry.author) %) at (% cur_entry.date %)</p>
+    (% window.entry_disp(i) %)
   (% } %)
 </div>
 
@@ -84,14 +82,6 @@ LISTPAGE
     font-size: 28px;
     padding: 0 1em;
     margin-top: 1em;
-  }
-
-  .entry-title {
-    font-size: 1.5em;
-  }
-
-  .timestamp {
-    color: #999;
   }
 </style>
 
@@ -110,10 +100,11 @@ ENTRYPAGE
 (% (window.entry_index = this.index, '') %)
 <div id='entry-solo-title'>(% cur_entry.title %)</div>
 <span class='timestamp'>Created by (% window.name_disp(cur_entry.author) %) at (% cur_entry.date %)</span>
-<div id='entry-tags'>
+<div class='entry-taglist'>
   (% for (var i in cur_entry.tags) { %)
     (% window.tag_disp(cur_entry.tags[i]) %)
   (% } %)
+  <a id='tag-add-button' class='pure-button' href='javascript:;'>+</a>
 </div>
 <div id='comments-list'>
   (% for (var i = 0; i < cur_entry.comments.length; i++) { %)
@@ -134,11 +125,6 @@ ENTRYPAGE
     font-size: 28px;
   }
 
-  #back-button {
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-  }
-
   #entry-solo-title {
     margin-top: 0.8em;
     font-size: 44px;
@@ -147,7 +133,10 @@ ENTRYPAGE
 
   .timestamp {
     font-size: 28px;
-    color: #999;
+  }
+
+  #tag-add-button {
+    padding: 0px 0.5em;
   }
 
   #comments-list {
@@ -224,4 +213,33 @@ document.getElementById('newentry-button').onclick = newentry_button_click;
 document.getElementById('newentry-title').onkeypress = function (e) {
   if (e.keyCode === 13) newentry_button_click();
 };
+//</script>
+
+\\(QwQ)
+TAGPAGE
+<div id='passport-disp'>Logged in as (% window.name_disp() %)</div>
+<a id='back-button' class='pure-button' href='javascript:window.render_template("LISTPAGE");'>&nbsp;&lt; Back</a>
+<br><br>
+<div class='content-title'>Tag: (% window.tag_disp(this.tag) %)</div>
+<div id='entry-list'>
+  (% for (var i = 0; i < window.storage.tags[this.tag].length; i++) { %)
+    (% window.entry_disp(i) %)
+    <hr>
+  (% } %)
+</div>
+
+<style>
+  #passport-disp {
+    font-size: 28px;
+  }
+
+  #entry-list {
+    font-size: 28px;
+    padding: 0 1em;
+    margin-top: 1em;
+  }
+</style>
+
+(=~=)|||
+//<script>
 //</script>
