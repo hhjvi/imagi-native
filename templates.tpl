@@ -166,9 +166,9 @@ document.getElementById('tag-add-button').onclick = function () {
   var newtag = prompt("New tag's title:"), valid = true;
   if (!newtag) return;
   for (i in window.storage.entries[window.entry_index].tags)
-    if (window.storage.entries[window.entry_index].tags === newtag) {
+    if (window.storage.entries[window.entry_index].tags[i] === newtag) {
       // 立flag？？？
-      valid = false; return;
+      valid = false; break;
     }
   if (valid) {
     var xhr = new XMLHttpRequest();
@@ -178,6 +178,8 @@ document.getElementById('tag-add-button').onclick = function () {
     window.storage.tags[newtag] = window.storage.tags[newtag] || [];
     window.storage.tags[newtag].push(window.entry_index);
     window.render_template('ENTRYPAGE', {index: window.entry_index});
+  } else {
+    alert('Tag (' + newtag + ') already added ==');
   }
 };
 
