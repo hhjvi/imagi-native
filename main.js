@@ -3,8 +3,8 @@
   window.storage = {passports: [], entries: [], tags: [], namelist: []};
   window.templates = {};
   window.logged_in_as = -1;
-  window.server = 'http://localhost:8715/imagi.php';
-  window.storage_server = 'http://localhost:8715/memory.php';
+  window.server = 'http://cg-u4.cn.gp/imagi.php';
+  window.storage_server = 'http://cg-u4.cn.gp/memory.php';
 
   function init_storage() {
     // Retrieve the name list.
