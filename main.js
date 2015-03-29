@@ -118,7 +118,7 @@
   }
   window.render_template = render_template;
 
-  xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest();
   xhr.open('GET', window.server + '?operation=pageview');
   xhr.send();
 
