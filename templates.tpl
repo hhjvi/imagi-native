@@ -42,7 +42,9 @@ var login_button_click = function () {
       if (window.storage.passports[i].passport === pp) {
         document.getElementById('login-warning').classList.add('force-display');
         document.getElementById('login-warning').innerHTML = 'OwO 卧槽，你和某人心有灵犀，选了同一个通行证<br>建议不要盗用他人帐号……去换一个吧……';
-        xhr.open('GET', window.server + '?operation=conflict&arg1=' + encodeURI(pp));
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', window.server + '?operation=conflict&arg1=' + encodeURI(pp));;
+        xhr.send();
         return;
       }
     }
