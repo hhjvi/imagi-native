@@ -6,7 +6,7 @@ LOGIN
   <div id='login-warning'>
     通行证不正确，请检查 TwT
   </div>
-  <br><br>第一次来？选择一些字母或者数字作为你将来的登录通行证，在前面加上“new-”（例如，“new-MyPassport”）。登录后将会进行更详细的解释。
+  <br><br>关于注册：选择一些字母或者数字作为你的登录通行证，在前面加上“-”（例如“-MyPassport”），走起～
 </div>
 
 <style>
@@ -36,8 +36,8 @@ LOGIN
 //<script>
 var login_button_click = function () {
   var pp = document.getElementById('login-passport').value;
-  if (pp.substr(0, 4) === 'new-') {
-    pp = pp.substr(4);
+  if (pp.substr(0, 1) === '-') {
+    pp = pp.substr(1);
     var name = window.storage.namelist.avail_list[Math.floor(Math.random() * window.storage.namelist.avail_list.length)];
     var xhr = new XMLHttpRequest();
     xhr.open('GET', window.server + '?operation=newcomer&arg1=' + name + '&arg2=' + encodeURI(pp));
