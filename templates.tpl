@@ -38,6 +38,14 @@ var login_button_click = function () {
   var pp = document.getElementById('login-passport').value;
   if (pp.substr(0, 1) === '-') {
     pp = pp.substr(1);
+    for (var i in window.storage.passports) {
+      if (window.storage.passports[i].passport === pp) {
+        document.getElementById('login-warning').classList.add('force-display');
+        document.getElementById('login-warning').innerHTML = 'OwO 卧槽，你和某人心有灵犀，选了同一个通行证<br>建议不要盗用他人帐号……去换一个吧……';
+        xhr.open('GET', window.server + '?operation=conflict&arg1=' + encodeURI(pp));
+        return;
+      }
+    }
     var name = window.storage.namelist.avail_list[Math.floor(Math.random() * window.storage.namelist.avail_list.length)];
     var xhr = new XMLHttpRequest();
     xhr.open('GET', window.server + '?operation=newcomer&arg1=' + name + '&arg2=' + encodeURI(pp));
@@ -58,6 +66,7 @@ var login_button_click = function () {
     xhr.send();
   }
   else document.getElementById('login-warning').classList.add('force-display');
+  document.getElementById('login-warning').innerHTML = '通行证不正确，请检查 TwT';
 };
 document.getElementById('login-button').onclick = login_button_click;
 document.getElementById('login-passport').onkeypress = function (e) {
